@@ -17,7 +17,11 @@ public:
 		CurrentEXP = 0u;
 		EXPToNextLevel = LEVEL2AT;
 		HP = std::make_unique<PointWell>();
+		Madness = std::make_unique<PointWell>();
+		Madness->setMax(100);
+		Madness->increaseCurrent(0);
 	}
+
 	void gainEXP(exptype gained_exp) {
 		CurrentEXP += gained_exp;
 		while (check_if_leveled()) {}
@@ -35,6 +39,8 @@ public:
 	virtual std::string getClassName() = 0;
 
 	std::unique_ptr<PointWell>HP;
+	std::unique_ptr<PointWell>Madness;
+	bool isDefending = false;
 
 protected:
 	leveltype CurrentLevel;
@@ -52,13 +58,6 @@ protected:
 		return false;
 	}
 };
-
-#define PCCONSTRUCT: PlayerCharacterDelegate() {\
-HP->setMax(BASEHP);\
-HP->increaseCurrent(BASEHP);\
-increaseStats(BASESTR, BASEINT, BASEEND);\
-}
-
 // TideCaller class definition
 // Healer class with high intelligence and moderate health
 
@@ -69,17 +68,19 @@ public:
 	static const stattype BASEINT = (stattype)12u;
 	static const stattype BASEEND = (stattype)8u;
 
-	TideCaller()PCCONSTRUCT
-
+	TideCaller() {
+		HP->setMax(BASEHP);
+		HP->increaseCurrent(BASEHP);
+		increaseStats(BASESTR, BASEINT, BASEEND);
+	}
 	std::string getClassName() override {
 		return std::string("Tide Caller");
 	}
 
-private:
+protected:
 	void LevelUp() override {
 		HP->setMax(HP->getMax() + BASEHP / 2);
-		HP->increaseCurrent(BASEHP);
-		HP->increaseCurrent(BASEHP / 2);
+		HP->increaseCurrent(BASEHP + BASEHP / 2);
 		increaseStats(BASESTR / 2, BASEINT, BASEEND / 2);
 	}
 };
@@ -94,17 +95,19 @@ public:
 	static const stattype BASEINT = (stattype)8u;
 	static const stattype BASEEND = (stattype)15u;
 
-	ReefStrider()PCCONSTRUCT
-
+	ReefStrider() {
+		HP->setMax(BASEHP);
+		HP->increaseCurrent(BASEHP);
+		increaseStats(BASESTR, BASEINT, BASEEND);
+	}
 	std::string getClassName() override {
 		return std::string("Reef Strider");
 	}
 
-private:
+protected:
 	void LevelUp() override {
 		HP->setMax(HP->getMax() + BASEHP / 2);
-		HP->increaseCurrent(BASEHP);
-		HP->increaseCurrent(BASEHP / 2);
+		HP->increaseCurrent(BASEHP + BASEHP / 2);
 		increaseStats(BASESTR / 2, BASEINT / 2, BASEEND);
 	}
 };
@@ -119,18 +122,20 @@ public:
 	static const stattype BASEINT = (stattype)5u;
 	static const stattype BASEEND = (stattype)12u;
 
-	TideBorn()PCCONSTRUCT
-
+	TideBorn() {
+		HP->setMax(BASEHP);
+		HP->increaseCurrent(BASEHP);
+		increaseStats(BASESTR, BASEINT, BASEEND);
+	}
 	std::string getClassName() override {
 		return std::string("TideBorn");
 	}
 
-private:
+protected:
 	void LevelUp() override {
 		HP->setMax(HP->getMax() + BASEHP / 2);
-		HP->increaseCurrent(BASEHP);
-		HP->increaseCurrent(BASEHP / 2);
-		increaseStats(BASESTR, BASEINT / 2,BASEEND);
+		HP->increaseCurrent(BASEHP + BASEHP / 2);
+		increaseStats(BASESTR, BASEINT / 2, BASEEND);
 	}
 };
 
@@ -144,17 +149,19 @@ public:
 	static const stattype BASEINT = (stattype)8u;
 	static const stattype BASEEND = (stattype)15u;
 
-	LeviathanHunter()PCCONSTRUCT
-
+	LeviathanHunter() {
+		HP->setMax(BASEHP);
+		HP->increaseCurrent(BASEHP);
+		increaseStats(BASESTR, BASEINT, BASEEND);
+	}
 	std::string getClassName() override {
 		return std::string("Leviathan Hunter");
 	}
 
-private:
+protected:
 	void LevelUp() override {
 		HP->setMax(HP->getMax() + BASEHP / 2);
-		HP->increaseCurrent(BASEHP);
-		HP->increaseCurrent(BASEHP / 2);
+		HP->increaseCurrent(BASEHP + BASEHP / 2);
 		increaseStats(BASESTR, BASEINT / 2, BASEEND / 2);
 	}
 };
@@ -169,21 +176,22 @@ public:
 	static const stattype BASEINT = (stattype)20u;
 	static const stattype BASEEND = (stattype)8u;
 
-	AbyssalMage() PCCONSTRUCT
-
+	AbyssalMage() {
+		HP->setMax(BASEHP);
+		HP->increaseCurrent(BASEHP);
+		increaseStats(BASESTR, BASEINT, BASEEND);
+	}
 	std::string getClassName() override {
 		return std::string("Abyssal Mage");
 	}
 
-private:
+protected:
 	void LevelUp() override {
 		HP->setMax(HP->getMax() + BASEHP / 2);
-		HP->increaseCurrent(BASEHP);
-		HP->increaseCurrent(BASEHP / 2);
+		HP->increaseCurrent(BASEHP + BASEHP / 2);
 		increaseStats(BASESTR / 2, BASEINT, BASEEND);
 	}
 };
-
 
 class PlayerCharacter {
 private:
@@ -214,6 +222,12 @@ public:
 	welltype getMaxHP() {
 		return pcclass->HP->getMax();
 	}
+	welltype getMadness() {
+		return pcclass->Madness->getCurrent();
+	}
+	welltype getMaxMadness() {
+		return pcclass->Madness->getMax();
+	}
 	stattype getStrength() {
 		return pcclass->getStrength();
 	}
@@ -232,5 +246,17 @@ public:
 	}
 	void heal(welltype amt) {
 		pcclass->HP->increaseCurrent(amt);
+	}
+	void addMadness(welltype amt) {
+		pcclass->Madness->increaseCurrent(amt);
+	}
+	void defend() {
+		pcclass->isDefending = true;
+	}
+	void cleardefend() {
+		pcclass->isDefending = false;
+	}
+	bool isDefending() {
+		return pcclass->isDefending;
 	}
 };
