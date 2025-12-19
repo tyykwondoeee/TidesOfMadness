@@ -23,7 +23,7 @@
     <ClInclude Include="AbyssalMage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hp.h">
+    <ClInclude Include="pointwell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeviathanHunter.h">
@@ -38,10 +38,7 @@
     <ClInclude Include="Tideborn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tidecaller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelSystem.h">
+    <ClInclude Include="playercharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

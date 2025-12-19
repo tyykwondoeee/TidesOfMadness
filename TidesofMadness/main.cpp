@@ -1,50 +1,25 @@
 #include <iostream>
-#include "Tideborn.h"
-#include "TideCaller.h"
-#include "AbyssalMage.h"
-#include "ReefStrider.h"
-#include "LeviathanHunter.h"
+#include "playercharacter.h"
 
 
 int main() {
+	PlayerCharacter p1(new AbyssalMage());
 
-	Tideborn Tideb1;
-	TideCaller TideC1;
-	AbyssalMage Abyssal1;
-	ReefStrider ReefS1;
-	LeviathanHunter LevH1;
-
-	std::cout << "Tideborn\n"
-		<< "-MaxHp: " << Tideb1.getMaxHP() << '\n'
-		<< "-Str: " << (int)Tideb1.getStrength() << '\n'
-		<< "-Int: " << (int)Tideb1.getIntelligence() << '\n'
-		<< "-End: " << (int)Tideb1.getEndurance() << "\n\n";
-
-	std::cout << "TideCaller\n"
-		<< "-MaxHp: " << TideC1.getMaxHP() << '\n'
-		<< "-Str: " << (int)TideC1.getStrength() << '\n'
-		<< "-Int: " << (int)TideC1.getIntelligence() << '\n'
-		<< "-End: " << (int)TideC1.getEndurance() << "\n\n";
-
-	std::cout << "AbyssalMage\n"
-		<< "-MaxHp: " << Abyssal1.getMaxHP() << '\n'
-		<< "-Str: " << (int)Abyssal1.getStrength() << '\n'
-		<< "-Int: " << (int)Abyssal1.getIntelligence() << '\n'
-		<< "-End: " << (int)Abyssal1.getEndurance() << "\n\n";
-
-	std::cout << "ReefStrider\n"
-		<< "-MaxHp: " << ReefS1.getMaxHP() << '\n'
-		<< "-Str: " << (int)ReefS1.getStrength() << '\n'
-		<< "-Int: " << (int)ReefS1.getIntelligence() << '\n'
-		<< "-End: " << (int)ReefS1.getEndurance() << "\n\n";
-
-	std::cout << "LeviathanHunter\n"
-		<< "-MaxHp: " << LevH1.getMaxHP() << '\n'
-		<< "-Str: " << (int)LevH1.getStrength() << '\n'
-		<< "-Int: " << (int)LevH1.getIntelligence() << '\n'
-		<< "-End: " << (int)LevH1.getEndurance() << "\n\n";
+	for (int i = 0; i < 2; i++) {
+		std::cout
+			<< p1.getClassName()
+			<< " Level" << p1.getLevel() << '\n'
+			<< "EXP: " << p1.getCurrentEXP() << '/' << p1.getEXPToNextLevel() << '\n'
+			<< "HP: " << p1.getCurrentHP() << '/' <<p1.getMaxHP() << '\n'
+			<< "Strength: " << p1.getStrength() << '\n'
+			<< "Intelligence: " << p1.getIntellect() << '\n'
+			<< "Endurance: " << p1.getEndurance() << "\n\n";
+		if (i < 1)
+			p1.gainEXP(100u);
+	}
+	std::cin.get();
 
 
 	return 0;
-
 }
+

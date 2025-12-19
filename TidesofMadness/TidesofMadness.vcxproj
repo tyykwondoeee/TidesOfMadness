@@ -127,13 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbyssalMage.h" />
-    <ClInclude Include="hp.h" />
+    <ClInclude Include="pointwell.h" />
     <ClInclude Include="LeviathanHunter.h" />
-    <ClInclude Include="LevelSystem.h" />
+    <ClInclude Include="playercharacter.h" />
     <ClInclude Include="ReefStrider.h" />
     <ClInclude Include="statblock.h" />
     <ClInclude Include="Tideborn.h" />
-    <ClInclude Include="Tidecaller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
