@@ -38,6 +38,7 @@ This project is actively under development. Refactors and structural changes are
 Author
 
 Ty Taylor
+
 Game developer with a background in C++, systems programming, and game architecture.
 
 License
