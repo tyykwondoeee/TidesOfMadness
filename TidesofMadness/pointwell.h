@@ -24,6 +24,15 @@ public:
 		return CurrentFullness;
 	}
 
+	bool hasEnough(welltype amount) const {
+		return CurrentFullness >= amount;
+	}
+
+	bool spend(welltype amount) {
+		if (amount > CurrentFullness)
+			return false;
+	}
+
 	void reduceCurrent(welltype damage) {
 		if (damage > CurrentFullness) {
 			CurrentFullness = 0;
